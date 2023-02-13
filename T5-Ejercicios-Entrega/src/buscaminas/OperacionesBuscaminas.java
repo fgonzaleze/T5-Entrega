@@ -1,102 +1,80 @@
 package buscaminas;
 
-import java.util.Arrays;
-import java.util.Scanner;
+
 
 public class OperacionesBuscaminas {
-	
-    public static Scanner sc = new Scanner(System.in);
+	 static final int TABLERO_SIZE = 20;
+	    static final int MINAS = 6;
+	    static int[] tablero = new int[TABLERO_SIZE];
+	    static boolean[] destapado = new boolean[TABLERO_SIZE];
+	    static Scanner scan = new Scanner(System.in);
 
+	    public static void main(String[] args) {
+	        inicializarTablero();
+	        mostrarTableroOculto();
 
-    public static final int MINAS = 6;
+	        while (!juegoTerminado()) {
+	            System.out.println("Elige una posición (0-" + (TABLERO_SIZE - 1) + "):");
+	            int posicion = scan.nextInt();
 
-    public static void colocarMinas(int[] arrayMinas, char[] pintarArray) {
-        int indice;             
-        int contadorMinas = 0;  
+	            if (tablero[posicion] == -1) {
+	                System.out.println("Lo siento, has perdido.");
+	                break;
+	            }
 
-        Arrays.fill(pintarArray, ' ');
+	            destapado[posicion] = true;
+	            mostrarTableroDestapado();
+	        }
 
-        while (contadorMinas < MINAS){
-            indice = (int) (Math.random() * (20 + 1) - 1); 
-            if (arrayMinas[indice]==1){
-                contadorMinas--;
-            }else {
-                arrayMinas[indice]=1;
-            }
-            contadorMinas++;
-        }
-    }
+	        if (juegoGanado()) {
+	            System.out.println("Felicidades, has ganado.");
+	        }
+	    }
 
+	    static void inicializarTablero() {
+	        for (int i = 0; i < TABLERO_SIZE; i++) {
+	            tablero[i] = 0;
+	            destapado[i] = false;
+	        }
 
-    public static void pintarTablero(char[] arrayPintar) {
-        for (int casilla = 0; casilla < arrayPintar.length; casilla++) {
-            System.out.print("[" + (char) arrayPintar[casilla] + "]");
-        }
-        System.out.println();
-    }
+	        int minasColocadas = 0;
+	        while (minasColocadas < MINAS) {
+	            int posicionMina = (int) (Math.random() * TABLERO_SIZE);
+	            if (tablero[posicionMina] == 0) {
+	                tablero[posicionMina] = -1;
+	                minasColocadas++;
 
-  
-    public static boolean jugar(int[] minas, char[] pintar) {
+	                for (int i = Math.max(posicionMina - 1, 0); i <= Math.min(posicionMina + 1, TABLERO_SIZE - 1); i++) {
+	                    if (tablero[i] != -1) {
+	                        tablero[i]++;
+	                    }
+	                }
+	            }
+	        }
+	    }
 
-        boolean gameOver = false;
+	    static boolean juegoTerminado() {
+	        for (int i = 0; i < TABLERO_SIZE; i++) {
+	            if (destapado[i] == false && tablero[i] != -1) {
+	                return false;
+	            }
+	        }
+	        return true;
+	    }
 
-        int casilla = sc.nextInt();
+	    static boolean juegoGanado() {
+	        for (int i = 0; i < TABLERO_SIZE; i++) {
+	            if (destapado[i] == false && tablero[i] == -1) {
+	                return false;
+	            }
+	        }
+	        return true;
+	    }
 
-        if (minas[casilla] == 1){ 
-        	
-            System.out.println("Has perdido :(");
-            gameOver = true;                  
-
-        } else {                                
-            pintar[casilla] = (contarMinas(minas, casilla) + "").charAt(0);
-            minas[casilla] = -1;           
-
-            if (usuarioGanaJuego(minas)){
-                System.out.println("Enhorabuena, has ganado");
-                gameOver = true;             
-            }
-        }
-        return gameOver;
-    }
-
-   
-    public static int contarMinas(int[] arrayMinas, int casilla) {
-        int izquierdaCasilla = casilla - 1;
-        int derechaCasilla = casilla + 1;
-        int contadorMinas = 0;
-
-        if (casilla == 0) {
-            izquierdaCasilla = 0;
-        }
-
-
-        if (casilla == arrayMinas.length - 1) {
-            derechaCasilla = arrayMinas.length - 1;
-        }
-
-      
-        for (int i = izquierdaCasilla; i <= derechaCasilla; i++) {
-            if (arrayMinas[i] == 1 && i != casilla) {  
-                contadorMinas++;                       
-            }
-        }
-        return contadorMinas;
-    }
-
-    public static boolean usuarioGanaJuego(int[] arrayMinas) {
-        int contador = 0;
-        boolean ganador = false;
-
-        for (int casilla = 0; casilla < arrayMinas.length; casilla++) {
-            if (arrayMinas[casilla] == 1 || arrayMinas[casilla] == -1) {
-                contador++;
-            }
-
-            if (contador == arrayMinas.length) {
-                ganador = true;
-            }
-        }
-        return ganador;
-    }
-
+	    static void mostrarTableroOculto() {
+	        for (int i = 0; i < TABLERO_SIZE; i++) {
+	            System.out.print("X ");
+	        }
+	        System.out.println();
+	    }
 }
