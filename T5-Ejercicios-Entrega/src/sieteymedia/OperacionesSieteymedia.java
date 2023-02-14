@@ -6,16 +6,23 @@ public class OperacionesSieteymedia {
 
 		    Scanner scanner = new Scanner(System.in);
 
-
 		    static final String[] carta = { "1", "2", "3", "4", "5", "6", "7", "Sota", "Caballo", "Rey"};
 		    static final String[] palo = { "Oros", "Copas", "Espadas", "Bastos" };
-		    String CartaSacada = "";
 		   
+		    /**
+		     * 
+		     * @return
+		     */
 		    static String robaCarta() {
 		      int nombreCarta = (int) (Math.random() * (carta.length));
 		      int nombrePalo = (int) (Math.random() * (palo.length));
 		      return carta[nombreCarta] + " de " + palo[nombrePalo];
 		    }
+		    /**
+		     * 
+		     * @param carta
+		     * @return
+		     */
 		    
 		    static double valorCarta(String carta) {
 		    

@@ -7,7 +7,8 @@ public class Main {
 	static final double PUNTUACION = 7.5;
 
 	public static void main(String[] args) {
-
+		
+		// 
 		Scanner lectura = new Scanner(System.in);
 		double puntosJugador1 = 0;
 		double puntosJugador2 = 0;
@@ -16,7 +17,7 @@ public class Main {
 		boolean turnoJug1 = true;
 		boolean turnoJug2 = true;
 
-		while (turnoJug1 == true) {
+		while (turnoJug1) {
 			System.out.println("Turno del jugador 1: ¿Quieres pedir una carta? (s/n)");
 			respuesta = lectura.next();
 			if (respuesta.equals("s")) {
@@ -32,7 +33,7 @@ public class Main {
 				turnoJug1 = false;
 			}
 		}
-		while (turnoJug2 == true) {
+		while (turnoJug2) {
 			System.out.println("Turno del jugador 2: ¿Quieres pedir una carta? (s/n)");
 			respuesta = lectura.next();
 			if (respuesta.equals("s")) {
@@ -50,12 +51,28 @@ public class Main {
 			}
 			//	Arreglar las condiciones
 		}
-		if (puntosJugador2 > puntosJugador1 && puntosJugador2 < PUNTUACION) {
+		
+//		if (puntosJugador2 > puntosJugador1 && puntosJugador2 <= PUNTUACION) {
+//			System.out.println("Gana el jugador 2");
+//		} if (puntosJugador1 > puntosJugador2 && puntosJugador1 <= PUNTUACION) {
+//			System.out.println("Gana el jugador 1");
+//		} if (puntosJugador2 == puntosJugador1 && puntosJugador2 < PUNTUACION && puntosJugador1 < PUNTUACION) {
+//			System.out.println("Empate");
+//		} if (puntosJugador2 > PUNTUACION && puntosJugador1 > PUNTUACION) {
+//			System.out.println("No ha ganado nadie");
+//		}
+		if (puntosJugador2 > puntosJugador1 && puntosJugador2 <= PUNTUACION) {
 			System.out.println("Gana el jugador 2");
-		} if (puntosJugador1 > puntosJugador2 && puntosJugador1 < PUNTUACION) {
+		} if (puntosJugador2 <= PUNTUACION && puntosJugador1 > PUNTUACION) {
+			System.out.println("Gana el jugador 2");
+		} if (puntosJugador1 > puntosJugador2 && puntosJugador1 <= PUNTUACION) {
 			System.out.println("Gana el jugador 1");
-		} if (puntosJugador2 == puntosJugador1 && puntosJugador2 < PUNTUACION && puntosJugador2 < PUNTUACION) {
+		} if (puntosJugador1 <= PUNTUACION && puntosJugador2 > PUNTUACION) {
+			System.out.println("Gana el jugador 1");
+		} if (puntosJugador2 == puntosJugador1 && puntosJugador2 < PUNTUACION && puntosJugador1 < PUNTUACION) {
 			System.out.println("Empate");
+		} if (puntosJugador2 > PUNTUACION && puntosJugador1 > PUNTUACION) {
+			System.out.println("No ha ganado nadie");
 		}
 		lectura.close();
 	}
